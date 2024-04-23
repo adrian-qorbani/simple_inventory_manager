@@ -16,7 +16,7 @@ Follow these steps to set up the project locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/simple_inventory_manager.git
+   git clone https://github.com/adrian-qorbani/simple_inventory_manager.git
 
 2. **Run the containers using docker compose:**
 
