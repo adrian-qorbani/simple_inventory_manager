@@ -4,7 +4,7 @@
   "description": "a backend server for a simple inventory manager built with Fastify, PostgreSQL and containerized with Docker",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require ts-node/register tests/**/*.test.ts",
     "dev": "nodemon --watch src src/index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "tsc && node ./build/index.js",
@@ -19,8 +19,14 @@
     "prisma": "^5.12.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.14",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.7",
+    "@types/supertest": "^6.0.2",
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
     "nodemon": "^3.1.0",
+    "supertest": "^6.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
