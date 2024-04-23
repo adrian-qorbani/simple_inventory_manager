@@ -5,11 +5,10 @@ server.get("/", function (request, reply) {
   reply.send({ hello: "world" });
 });
 
-server.listen({ port: 3000 }, function (err, address) {
+server.listen({ port: 8080, host: "0.0.0.0" }, (err, address) => {
   if (err) {
-    server.log.error(err);
+    console.error(err);
     process.exit(1);
   }
-
-  console.log(`Server is now listening on ${address}`);
+  console.log(`Server listening at ${address}`);
 });
