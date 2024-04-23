@@ -1,0 +1,31 @@
+services:
+  inventory-api:
+    platform: linux/x86_64
+    build: ./
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8080:8080
+      - 9240:9240 # Node inspect
+    volumes:
+      - ./:/home/app/api
+      - /home/app/api/node_modules
+    working_dir: /home/app/api
+    restart: on-failure
+    depends_on:
+      - inventory-db
+
+  inventory-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGDATA=/var/lib/postgresql/data/pgdata # Critical for Postgres to work in the container
+    volumes:
+      - ./db/data/postgres:/var/lib/postgresql
+    ports:
+      - 5432:5432
+ 
+# isolating services and secure communication
