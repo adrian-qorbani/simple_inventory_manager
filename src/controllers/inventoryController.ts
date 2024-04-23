@@ -1,6 +1,9 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { PrismaClient } from "@prisma/client";
+// importing types for controller
+import { Category } from "../ts-types/category" 
 
+// creating a new client
 const prisma = new PrismaClient();
 
 // Get all categories
@@ -9,7 +12,7 @@ export async function getAllCategories(
   reply: FastifyReply
 ) {
   try {
-    const categories = await prisma.category.findMany({
+    const categories: Category[] = await prisma.category.findMany({
       select: {
         name: true,
         counter: true,
@@ -28,7 +31,7 @@ export async function createCategory(
 ) {
   try {
     const { name } = request.body as { name: string };
-    const newCategory = await prisma.category.create({
+    const newCategory: Category = await prisma.category.create({
       data: { name },
     });
     reply.status(201).send(newCategory);
