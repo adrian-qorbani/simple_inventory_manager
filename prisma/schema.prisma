@@ -11,6 +11,6 @@ model category {
   latitude  Int?
   longitude Int?
   name      String?
-  counter   Int?
+  counter   Int?    @default(0)
   id        Int     @id @default(autoincrement())
 }
