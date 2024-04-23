@@ -1,0 +1,23 @@
+{
+  "name": "simple_inventory_manager",
+  "version": "1.0.0",
+  "description": "a backend server for a simple inventory manager built with Fastify, PostgreSQL and containerized with Docker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon --watch src src/index.ts",
+		"build": "tsc -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.26.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
