@@ -44,3 +44,17 @@ Follow these steps to set up the project locally:
 
    ```bash
    npm run test
+
+Follow these steps to add or change inventory categories. You can Postman:
+
+1. **Adding a new category (POST http://0.0.0.0:8080):**
+
+   ```bash
+   {"name":"your_category"}
+
+1. **Changing quantity of a certain category by its name (POST http://0.0.0.0:8080/update-category):**
+
+   ```bash
+   {"name":"your_category","action":"increase/decrease","amount":100}
+
+NOTE: `action` should either be `increase` or `decrease`. `amount` should be a positive integer.
