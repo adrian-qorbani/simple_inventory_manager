@@ -1,3 +1,4 @@
+// NOTE: tests updated to use jwt authentication
 // NOTE: make sure containers are up and running when running the tests
 // importing mocha and chai for testing
 import { expect } from "chai";
@@ -7,27 +8,37 @@ import supertest from "supertest";
 import fastify from "fastify";
 // testing routes
 import inventoryRoutes from "../../src/routes/inventoryRoutes";
+import authRoutes from "../../src/routes/authRoutes";
 import { PrismaClient } from "@prisma/client";
 
 const app = fastify();
 
 inventoryRoutes(app);
+authRoutes(app);
 
 const agent = supertest.agent(app.server);
 
 const prisma = new PrismaClient();
 
+// Helper: JWT token
+async function getToken() {
+  const response = await agent.post("/auth").send({});
+  return response.body.token;
+}
+
 describe("POST /", () => {
-  //   this will override and delete all existing data on database,
-  //   since its a testing project and have no real life application, i didn't implant a separate database for testing.
   beforeEach(async () => {
-    await prisma.category.deleteMany(); // Clean up database before each test
+    await prisma.category.deleteMany(); // Database cleanup before each test.
   });
 
   it("Should create a new category with counter set to zero (database default)", async () => {
-    // POST request to create a new category
+    // get JWT token
+    const token = await getToken();
+
+    // POST request to create a new category with token in Authorization header
     const createResponse = await agent
       .post("/")
+      .set("Authorization", `Bearer ${token}`)
       .send({ name: "categoryTest" });
 
     // Verify request is successful
@@ -48,17 +59,22 @@ describe("POST /", () => {
   });
 
   it("Should update the counter of an existing category", async () => {
-    // Send a POST request to create a new category
+    // Obtain JWT token
+    const token = await getToken();
+
+    // Send a POST request to create a new category with token in Authorization header
     const createResponse = await agent
       .post("/update-category")
+      .set("Authorization", `Bearer ${token}`)
       .send({ name: "categoryTest" });
 
     // Verify that the request is successful
     expect(createResponse.status).to.equal(200);
 
-    // Send a POST request to update the counter
+    // Send a POST request to update the counter with token in Authorization header
     const updateResponse = await agent
       .post("/categoryTest")
+      .set("Authorization", `Bearer ${token}`)
       .send({ categoryName: "categoryTest", action: "increase", amount: 100 });
 
     // Verify that the request is successful

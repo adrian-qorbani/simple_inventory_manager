@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { authenticateToken } from "../tools/middleware";
 import {
   getAllCategories,
   createCategory,
@@ -9,9 +10,9 @@ export default function categoryRoutes(server: FastifyInstance) {
   // Get all categories
   server.get("/", getAllCategories);
 
-  // Create a new category
-  server.post("/", createCategory);
+  // Create a new category with token authentication
+  server.post("/", { preHandler: authenticateToken }, createCategory);
 
-  // Update category counter
-  server.post("/update-category", updateCategoryCounter);
+  // Update category counter with token authentication
+  server.post("/update-category", { preHandler: authenticateToken }, updateCategoryCounter);
 }
